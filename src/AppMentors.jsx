@@ -24,7 +24,7 @@ export default function AppMentor() {
   return (
     <div>
       <h1>
-        {person.name}는 {person.title}
+        {person.name}is {person.title}
       </h1>
       <p>{person.name}'s mentor:</p>
       <ul>
