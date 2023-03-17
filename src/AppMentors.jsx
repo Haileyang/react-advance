@@ -1,54 +1,24 @@
-import React, { useState } from 'react';
+import React, { useReducer } from 'react';
+import personReducer from './reducer/person-reducer';
 
 export default function AppMentor() {
-  const [person, setPerson] = useState(initialPerson);
-  const initialPerson = {
-    name: 'Hannah',
-    title: 'FE',
-    mentors: [
-      {
-        name: 'Bob',
-        title: 'BE',
-      },
-      {
-        name: 'James',
-        title: 'DevOps',
-      },
-    ],
-  }
-  
+  const [person, dispatch] = useReducer(personReducer, initialPerson);
+
   const handleUpdateMentor = () => {
     const prev = prompt(`whose name you'd like to change?`);
     const current = prompt(`Which name you'd like to change to?`);
-
-    setPerson(person => ({
-      ...person, 
-      mentors: person.mentors.map((mentor) => {
-        if(mentor.name === prev){
-          return {...mentor, name: current}
-        }
-        return mentor;
-      })
-    }))
+    dispatch({type: 'updated', prev, current})
   }
 
   const handleAddMentor = () => {
     const name = prompt(`What is name of new mentor?`);
     const title = prompt(`What is title of new mentor?`);
-
-    setPerson(person => ({
-      ...person, 
-      mentors: [...person.mentors, {name, title}]
-    }))
+    dispatch({type: 'added', name, title})
   }
 
   const handleDeleteMentor = () => {
     const name = prompt(`whose you'd like delete?`);
-
-    setPerson(person => ({
-      ...person, 
-      mentors: person.mentors.filter((mentor) => mentor.name !== name)
-    }))
+    dispatch({type: 'deleted', name})
   }
 
   return (
@@ -65,20 +35,35 @@ export default function AppMentor() {
         ))}
       </ul>
       <button
-        onClick={() => handleUpdateMentor}
+        onClick={handleUpdateMentor}
       >
         Change Mentor Name
       </button>
       <button
-        onClick={() => handleAddMentor}
+        onClick={handleAddMentor}
       >
         Add Mentor 
       </button>
       <button
-        onClick={() => handleDeleteMentor}
+        onClick={handleDeleteMentor}
       >
         Delete Mentor Name
       </button>
     </div>
   );
+}
+
+const initialPerson = {
+  name: 'Hannah',
+  title: 'FE',
+  mentors: [
+    {
+      name: 'Bob',
+      title: 'BE',
+    },
+    {
+      name: 'James',
+      title: 'DevOps',
+    },
+  ],
 }
