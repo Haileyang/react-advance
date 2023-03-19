@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react';
+import React, { useReducer, useMemo } from 'react';
 import personReducer from './reducer/person-reducer';
 
 export default function AppMentorsButton() {
@@ -43,6 +43,10 @@ export default function AppMentorsButton() {
 
 function Button({ text, onClick }) {
   console.log('Button', text, 're-rendering 😜');
+    // const result = calculateSomething() //Time consuming 
+    //refactoring 01 - useMemo
+    const result =  useMemo(() => calculateSomething(), [])
+
   return (
     <button
       onClick={onClick}
@@ -56,6 +60,13 @@ function Button({ text, onClick }) {
       {text}
     </button>
   );
+}
+
+function calculateSomething(){
+    for(let i=0; i< 10000; i++){
+        console.log('inc')
+    }
+    return 10;
 }
 
 const initialPerson = {
