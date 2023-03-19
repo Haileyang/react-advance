@@ -1,4 +1,4 @@
-import React, { useReducer, useMemo, useCallback, useCallBack } from 'react';
+import React, { memo, useReducer, useCallBack} from 'react';
 import personReducer from './reducer/person-reducer';
 
 export default function AppMentorsButton() {
@@ -42,33 +42,23 @@ export default function AppMentorsButton() {
     );
 }
 
-function Button({ text, onClick }) {
-  console.log('Button', text, 're-rendering 😜');
-    // const result = calculateSomething() //Time consuming 
-    //refactoring 01 - useMemo
-    // const result =  useMemo(() => calculateSomething(), [])
-
-  return (
-    <button
-      onClick={onClick}
-      style={{
-        backgroundColor: 'black',
-        color: 'white',
-        borderRadius: '20px',
-        margin: '0.4rem',
-      }}
-    >
-      {text}
-    </button>
-  );
-}
-
-function calculateSomething(){
-    for(let i=0; i< 10000; i++){
-        console.log('inc')
-    }
-    return 10;
-}
+//refactoring 03 - memo component to not only let re-render when there is different props
+const Button = memo(({ text, onClick }) => {
+    console.log('Button', text, 're-rendering 😜');
+    return (
+      <button
+        onClick={onClick}
+        style={{ 
+          backgroundColor: 'black',
+          color: 'white',
+          borderRadius: '20px',
+          margin: '0.4rem',
+        }}
+      >
+        {`${text}`}
+      </button>
+    );
+});
 
 const initialPerson = {
   name: 'Hannah',
